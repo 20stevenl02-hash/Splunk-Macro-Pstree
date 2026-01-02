@@ -1,0 +1,31 @@
+source="WinEventLog:Security" EventCode=4688 host=$host$
+| rename "New_Process_Name" as proc_L1, "Process_ID" as pid_L1, "Parent_Process_ID" as ppid_L1, "Process_Command_Line" as cmd_L1
+| table _time host pid_L1 ppid_L1 proc_L1 cmd_L1
+| join type=left pid_L1 [
+search source="WinEventLog:Security" EventCode=4688 host=$host$
+| rename "New_Process_Name" as proc_L2, "Process_ID" as pid_L2, "Parent_Process_ID" as ppid_L2, "Process_Command_Line" as cmd_L2
+| table pid_L2 ppid_L2 proc_L2 cmd_L2
+]
+| join type=left pid_L2 [
+search source="WinEventLog:Security" EventCode=4688 host=$host$
+| rename "New_Process_Name" as proc_L3, "Process_ID" as pid_L3, "Parent_Process_ID" as ppid_L3, "Process_Command_Line" as cmd_L3
+| table pid_L3 ppid_L3 proc_L3 cmd_L3
+]
+| join type=left pid_L3 [
+search source="WinEventLog:Security" EventCode=4688 host=$host$
+| rename "New_Process_Name" as proc_L4, "Process_ID" as pid_L4, "Parent_Process_ID" as ppid_L4, "Process_Command_Line" as cmd_L4
+| table pid_L4 ppid_L4 proc_L4 cmd_L4
+]
+| eval tree = coalesce(proc_L1, "null")
+    . if(isnotnull(proc_L2), "
+   |--- " . proc_L2, "")
+     . if(isnotnull(proc_L3), "
+     |--- " . proc_L3, "")
+     . if(isnotnull(proc_L4), "
+       |--- " . proc_L4, "")
+| eval L1_proc_cmd = proc_L1 . "[" . coalesce(cmd_L1, "") . "]"
+| eval L2_proc_cmd = if(isnotnull(proc_L2), proc_L2 . "[" . cmd_L2 . "]", null())
+| eval L3_proc_cmd = if(isnotnull(proc_L3), proc_L3 . "[" . coalesce(cmd_L3, "") . "]", null())
+| eval L4_proc_cmd = if(isnotnull(proc_L4), proc_L4 . "[" . coalesce(cmd_L4, "") . "]", null())
+| table _time host tree L1_proc_cmd L2_proc_cmd L3_proc_cmd L4_proc_cmd
+| rename L1_proc_cmd AS "Parent" L2_proc_cmd AS "Child" L3_proc_cmd AS "GrandChild" L4_proc_cmd AS "Great GrandChild" tree AS "PStree"
