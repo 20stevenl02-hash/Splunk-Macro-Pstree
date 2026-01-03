@@ -4,6 +4,8 @@
 
 Splunkbase provides a **PSTree** app that generates a process tree view for a given host. However, this app is **only available for Splunk Enterprise** and is **not supported in Splunk Cloud**.
 
+Credit to Donald Murchison for creating the orginal splunk app. https://www.linkedin.com/in/donald-murchison/
+
 To address this limitation, this repository provides **two custom Splunk macros** that replicate PSTree-style functionality using native Windows logs. These macros are designed to work in **Splunk Cloud** and **Splunk Enterprise** environments.
 
 Each macro builds a parent/child process tree for a specified host using different Windows data sources:
