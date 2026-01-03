@@ -30,7 +30,7 @@ Both macros accept **one argument: the hostname**.
 **Example Usage:**
 
 ```spl
-`pstree_sysmon(my-hostname)`
+`pstree(host=<my-hostname>)`
 ```
 
 ---
@@ -48,7 +48,7 @@ Both macros accept **one argument: the hostname**.
 **Example Usage:**
 
 ```spl
-`pstree_4688(my-hostname)`
+`pstree4688(host=<my-hostname>)`
 ```
 
 ---
@@ -59,7 +59,7 @@ Both macros accept **exactly one argument**:
 
 | Argument   | Description                                                    |
 | ---------- | -------------------------------------------------------------- |
-| `hostname` | The target host for which the process tree should be generated |
+| `host` | The target host for which the process tree should be generated |
 
 ---
 
