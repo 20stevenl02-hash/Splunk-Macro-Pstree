@@ -20,21 +20,21 @@ query:
 | table _time host pid1 ppid1 image1 cmd1
 | eval join_key=pid1
 | join type=left join_key [
-    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=*
+    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=$host$
     | rename ProcessId as pid2, ParentProcessId as ppid2, Image as image2, CommandLine as cmd2
     | eval join_key=ppid2
     | table join_key pid2 ppid2 image2 cmd2
 ]
 | eval join_key=pid2
 | join type=left join_key [
-    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=*
+    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=$host$
     | rename ProcessId as pid3, ParentProcessId as ppid3, Image as image3, CommandLine as cmd3
     | eval join_key=ppid3
     | table join_key pid3 ppid3 image3 cmd3
 ]
 | eval join_key=pid3
 | join type=left join_key [
-    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=*
+    search source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 host=$host$
     | rename ProcessId as pid4, ParentProcessId as ppid4, Image as image4, CommandLine as cmd4
     | eval join_key=ppid4
     | table join_key pid4 ppid4 image4 cmd4
