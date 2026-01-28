@@ -1,3 +1,20 @@
+title: Tracing process heiarchy 
+id: 76678788-032f-48c4-89d4-29a36ada7b1b
+author: Steven Lourenco 20stevenl02@gmail.com
+date: 2026-01-28
+description: creates a tree like veiw of the heiarchy of process ranging from parent process to great grand child (4 levels) to assist with threat hunting and triaging malicous processes
+usage instructions: 
+- utilize as as splunk macro with $host$ arg 
+- keep time range to a minimum
+- use specficic process names to filter results
+log_source:
+  platform: splunk
+  product: windows
+  category: process_creation
+data_sources: windows_sysmon
+query:
+  language: spl
+  text:
 source="WinEventLog:Security" EventCode=4688 host=$host$
 | rename "New_Process_Name" as proc_L1, "Process_ID" as pid_L1, "Parent_Process_ID" as ppid_L1, "Process_Command_Line" as cmd_L1
 | table _time host pid_L1 ppid_L1 proc_L1 cmd_L1
