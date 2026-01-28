@@ -32,7 +32,7 @@ Both macros accept **one argument: the hostname**.
 **Example Usage:**
 
 ```spl
-`pstree(host=<my-hostname>)`
+`pstree(<my-hostname>)`
 ```
 
 ---
@@ -50,7 +50,7 @@ Both macros accept **one argument: the hostname**.
 **Example Usage:**
 
 ```spl
-`pstree4688(host=<my-hostname>)`
+`pstree4688(<my-hostname>)`
 ```
 
 ---
