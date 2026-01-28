@@ -1,5 +1,5 @@
-title: Tracing process heiarchy 
-id: 76678788-032f-48c4-89d4-29a36ada7b1b
+title: Tracing process heiarchy with Winodws Event Security Logs
+id: 24222b73-05e2-459b-9d38-e83f3a134d6e
 author: Steven Lourenco 20stevenl02@gmail.com
 date: 2026-01-28
 description: creates a tree like veiw of the heiarchy of process ranging from parent process to great grand child (4 levels) to assist with threat hunting and triaging malicous processes
